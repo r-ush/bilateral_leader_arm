@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 190" fill="none">
+  <title>Operator guiding the leader with both hands</title>
+  <circle cx="130" cy="90" r="78" fill="#f0f6fb"/>
+  <ellipse cx="130" cy="177" rx="63" ry="5" fill="#e3eaf1"/>
+  <path d="M105 170v-23h50v23" fill="#465465"/>
+  <path d="M90 165l7-66c1-12 13-19 33-19s32 7 33 19l7 66H90Z" fill="#b9c8d6" stroke="#596b7d" stroke-width="2.5"/>
+  <path d="M99 98 76 120l-26-16M161 98l23 22 26-16" stroke="#596b7d" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M99 98 76 120l-26-16M161 98l23 22 26-16" stroke="#b9c8d6" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m43 98 10 8m154 0 10-8" stroke="#dfb49b" stroke-width="14" stroke-linecap="round"/>
+  <path d="M122 76v10c0 7 16 7 16 0V76" fill="#dfb49b"/>
+  <ellipse cx="130" cy="55" rx="23" ry="27" fill="#edc6ac" stroke="#c5977f" stroke-width="1.5"/>
+  <path d="M107 56V43c1-20 44-24 46 0v13l-7-12c-10 6-23 5-33 3l-6 9Z" fill="#3c4653"/>
+  <path d="M122 64c5 3 11 3 16 0" stroke="#bb8e78" stroke-width="2" stroke-linecap="round"/>
+  <path d="M115 91c9 7 21 7 30 0M130 97v57" stroke="#91a4b7" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="76" cy="120" r="3" fill="#1686c9"/>
+  <circle cx="184" cy="120" r="3" fill="#1686c9"/>
+</svg>

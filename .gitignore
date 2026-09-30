@@ -1,0 +1,7 @@
+# Original recordings are kept locally; publish optimized web copies only.
+/*.mp4
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+.preview/

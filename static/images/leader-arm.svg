@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 190" fill="none">
+  <title>Backdrivable dual leader-arm interface</title>
+  <circle cx="130" cy="90" r="78" fill="#f0f6fb"/>
+  <ellipse cx="130" cy="177" rx="70" ry="5" fill="#e3eaf1"/>
+  <path d="M130 71v97" stroke="#596b7d" stroke-width="13" stroke-linecap="round"/>
+  <path d="M98 173h64" stroke="#596b7d" stroke-width="9" stroke-linecap="round"/>
+  <rect x="92" y="39" width="76" height="42" rx="11" fill="#354250"/>
+  <path d="M102 46h56" stroke="#67798b" stroke-width="2" stroke-linecap="round"/>
+  <rect x="119" y="50" width="22" height="19" rx="4" fill="#263341"/>
+  <circle cx="130" cy="59" r="4" fill="#1686c9"/>
+  <path d="M94 60 60 88l14 42-32 10M166 60l34 28-14 42 32 10" stroke="#354250" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M91 64 65 86m12 40-8-30m-1 37-21 6M169 64l26 22m-12 40 8-30m1 37 21 6" stroke="#64768a" stroke-width="3" stroke-linecap="round"/>
+  <g fill="#354250" stroke="#8294a7" stroke-width="2.5"><circle cx="94" cy="60" r="10"/><circle cx="60" cy="88" r="9"/><circle cx="74" cy="130" r="8"/><circle cx="166" cy="60" r="10"/><circle cx="200" cy="88" r="9"/><circle cx="186" cy="130" r="8"/></g>
+  <g fill="#1686c9"><circle cx="94" cy="60" r="3"/><circle cx="60" cy="88" r="3"/><circle cx="74" cy="130" r="2.5"/><circle cx="166" cy="60" r="3"/><circle cx="200" cy="88" r="3"/><circle cx="186" cy="130" r="2.5"/></g>
+  <path d="m40 132 5 22m170-22-5 22" stroke="#263341" stroke-width="8" stroke-linecap="round"/>
+  <path d="m30 143 8-9m192 9-8-9" stroke="#dfaa37" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="m29 136 1 7 7 1m186 0 7-1 1-7" stroke="#dfaa37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

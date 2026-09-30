@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teleoperating Leader Arm for Dual Arm | Bilateral Force Feedback</title>
+  <meta name="description" content="Bilateral leader–follower teleoperation for a dual-arm robot, with backdrivable leader arms, gravity compensation, and Jacobian-based force feedback.">
+  <meta name="keywords" content="Bilateral Teleoperation, Leader Arm, Dual Arm, Force Feedback, Haptics, Cartesian Impedance, Dynamixel, Seunghwan Um, Chemin Ahn, 엄승환, 양방향 원격조작, 힘반사">
+  <link rel="canonical" href="https://r-ush.github.io/bilateral_leader_arm/">
+  <meta property="og:title" content="Teleoperating Leader Arm for Dual Arm">
+  <meta property="og:description" content="Command remote motion. Feel remote contact. Bilateral teleoperation with backdrivable leader arms and force feedback.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://r-ush.github.io/bilateral_leader_arm/">
+  <meta property="og:image" content="https://r-ush.github.io/bilateral_leader_arm/static/images/hand-teleoperation.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Teleoperating Leader Arm for Dual Arm">
+  <meta name="twitter:description" content="Bilateral teleoperation with backdrivable leader arms and force feedback.">
+  <meta name="twitter:image" content="https://r-ush.github.io/bilateral_leader_arm/static/images/hand-teleoperation.jpg">
+  <link rel="preload" href="./static/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"TechArticle","headline":"Teleoperating Leader Arm for Dual Arm","description":"Bilateral teleoperation with gravity compensation and Jacobian-based force feedback. Presented at KRoC 2026, TA6 Special Session 5.","author":[{"@type":"Person","name":"Seunghwan Um","url":"https://r-ush.github.io/"},{"@type":"Person","name":"Chemin Ahn","url":"https://chemx3937.github.io/"},{"@type":"Person","name":"Jeong Hwan Park"},{"@type":"Person","name":"Sung Jun Lee"},{"@type":"Person","name":"Hyouk Ryeol Choi","alternateName":"최혁렬","url":"https://scholar.google.com/citations?user=EDrjHWsAAAAJ"}],"url":"https://r-ush.github.io/bilateral_leader_arm/","image":"https://r-ush.github.io/bilateral_leader_arm/static/images/hand-teleoperation.jpg"}
+  </script>
+  <script>
+    window.MathJax = {
+      loader: { load: ['[tex]/boldsymbol'] },
+      tex: { packages: { '[+]': ['boldsymbol'] }, inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']], tags: 'none' },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+  <script defer src="./static/js/index.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content"><span data-language="en">Skip to content</span><span data-language="ko" hidden>본문으로 이동</span></a>
+  <nav class="navbar" aria-label="Main navigation">
+    <div class="container is-max-desktop nav-inner">
+      <a class="home-link" href="https://r-ush.github.io/" aria-label="Seunghwan Um homepage">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v12h5v-7h4v7h5V9"/></svg>
+        <span data-language="en">Home</span><span data-language="ko" hidden>홈</span>
+      </a>
+      <div class="nav-links">
+        <a href="#main-demo"><span data-language="en">Demos</span><span data-language="ko" hidden>데모</span></a>
+        <a href="#principle"><span data-language="en">Principle</span><span data-language="ko" hidden>원리</span></a>
+      </div>
+      <div class="language-switch" role="group" aria-label="Language / 언어">
+        <button type="button" data-set-language="en" aria-pressed="true" aria-label="English">EN</button>
+        <button type="button" data-set-language="ko" aria-pressed="false" aria-label="한국어">KR</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <section class="hero publication-header">
+      <div class="hero-body">
+        <div class="container is-max-desktop has-text-centered">
+          <p class="eyebrow"><span data-language="en">Bilateral Teleoperation · Force Feedback</span><span data-language="ko" hidden>양방향 원격조작 · 힘반사</span></p>
+          <h1 class="title is-1 publication-title"><span data-language="en">Teleoperating Leader Arm<br class="desktop-break"> for Dual Arm</span><span data-language="ko" hidden>리더암을 이용한<br class="desktop-break"> 양팔 로봇 원격조작</span></h1>
+          <div class="publication-authors is-size-5">
+            <span class="author-block"><a href="https://r-ush.github.io/">Seunghwan Um</a>,</span>
+            <span class="author-block"><a href="https://chemx3937.github.io/">Chemin Ahn</a>,</span>
+            <span class="author-block">Jeong Hwan Park,</span>
+            <span class="author-block">Sung Jun Lee,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=EDrjHWsAAAAJ" target="_blank" rel="noopener noreferrer"><span data-language="en">Hyouk Ryeol Choi</span><span data-language="ko" hidden>최혁렬</span></a> <span class="advisor-label"><span data-language="en">(Advisor)</span><span data-language="ko" hidden>(지도교수)</span></span></span>
+          </div>
+          <p class="hero-description"><span data-language="en">Command remote motion. Feel remote contact.</span><span data-language="ko" hidden>리더암으로 움직임을 전달하고, 원격 접촉을 손으로 느낍니다.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section research-section" id="main-demo">
+      <div class="container is-max-desktop">
+        <div class="content has-text-centered">
+          <h2 class="title is-3"><span data-language="en">Bilateral Teleoperation with Robotic Hands</span><span data-language="ko" hidden>로봇 손을 이용한 양방향 원격조작</span></h2>
+          <p class="section-intro"><span data-language="en">Coordinated arm and hand motion for interacting with objects.</span><span data-language="ko" hidden>물체와 상호작용하기 위해 팔과 로봇 손의 움직임을 함께 조작합니다.</span></p>
+        </div>
+        <figure class="demo-video">
+          <video id="hand-teleoperation" width="1920" height="1080" controls muted playsinline loop preload="metadata" poster="./static/images/hand-teleoperation.jpg" aria-labelledby="hand-caption"><source src="./static/videos/dual-arm-hand-teleoperation.mp4" type="video/mp4"><a href="./static/videos/dual-arm-hand-teleoperation.mp4">Download video</a></video>
+          <figcaption id="hand-caption"><span data-language="en">The leader interface is used to command the dual-arm robot and its hands during object interaction.</span><span data-language="ko" hidden>리더 인터페이스로 양팔 로봇과 로봇 손을 조작하여 물체와 상호작용합니다.</span></figcaption>
+        </figure>
+        <div class="demo-note" role="note">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 19V13m6 6V9m6 10V5m4 0-4-4-4 4"/></svg>
+            <p><strong><span data-language="en">Increased force-feedback gain.</span><span data-language="ko" hidden>힘반사 배율을 높인 시연 영상입니다.</span></strong> <span data-language="en">The system was operated with a higher force-feedback gain in this video to make the reflected force response more visible.</span><span data-language="ko" hidden>힘반사 반응이 잘 보이도록, 이 영상에서는 force feedback 배율(게인)을 높여 작동했습니다.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section presentation-section" id="kroc-presentation">
+      <div class="container is-max-desktop">
+        <article class="presentation-card" aria-labelledby="presentation-heading">
+          <div class="presentation-label"><span class="conference-badge">KRoC 2026</span><span data-language="en">Special-session presentation</span><span data-language="ko" hidden>특별세션 발표</span><time datetime="2026-02-05">2026.02.05</time></div>
+          <h2 class="presentation-heading" id="presentation-heading"><span data-language="en">Development of a Dual-Arm Robot Teleoperation System with Leader-Arm Force Feedback</span><span data-language="ko" hidden>리더암 힘피드백이 가능한 양팔 로봇 텔레오퍼레이션 시스템 개발</span></h2>
+          <p class="presentation-session"><span data-language="en">Presented by Seunghwan Um at the 21st Korea Robotics Society Annual Conference, <strong>[TA6] Special Session 5 — Humanoid Technology for Logistics Center Tasks</strong>.</span><span data-language="ko" hidden>제21회 한국로봇종합학술대회(KRoC 2026) <strong>[TA6] 특별세션5 — 물류 센터 작업을 위한 휴머노이드 기술</strong>에서 엄승환이 발표했습니다.</span></p>
+          <a class="program-source" href="https://kros.org/Conference/ConferenceView.asp?AC=0&amp;CODE=CC20250902&amp;CpPage=298" target="_blank" rel="noopener noreferrer"><span data-language="en">KRoC 2026 official program ↗</span><span data-language="ko" hidden>KRoC 2026 공식 프로그램 ↗</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section overview-section">
+      <div class="container is-max-desktop">
+        <div class="content overview-copy">
+          <h2 class="title is-3 has-text-centered"><span data-language="en">Overview</span><span data-language="ko" hidden>연구 개요</span></h2>
+          <p><span data-language="en">A backdrivable leader arm provides an intuitive interface for controlling a remote follower. Leader joint motion sets the follower’s target pose, while contact forces at the follower are reflected as joint torques on the leader. This closes the loop between <strong>motion commands</strong> and <strong>force feedback</strong>.</span><span data-language="ko" hidden>자유롭게 움직일 수 있는 리더암으로 원격 로봇을 직관적으로 조작합니다. 리더암의 관절 움직임은 팔로워의 목표 자세로 전달되고, 팔로워가 느끼는 접촉력은 리더암의 관절 토크로 돌아옵니다. <strong>움직임 전달</strong>과 <strong>힘반사</strong>를 연결하여 양방향 원격조작을 구성합니다.</span></p>
+          <p><span data-language="en">The leader remains in current (torque) control with gravity compensation. Jacobian-transpose mapping renders the remote wrench, with a Cartesian virtual impedance formulation that can add damping and optional inertia. The demonstrations below show dual-arm motion, external interaction, and teleoperation with robotic hands.</span><span data-language="ko" hidden>리더암은 중력보상을 적용한 전류(토크) 제어 모드를 유지합니다. Jacobian 전치 행렬로 원격 힘·토크를 관절 토크에 반영하며, Cartesian 가상 임피던스 방식에서는 감쇠와 선택적인 관성항을 더할 수 있습니다. 아래 영상에서는 양팔 움직임, 외부 상호작용, 로봇 손을 이용한 원격조작을 보여줍니다.</span></p>
+        </div>
+        <figure class="control-flow" aria-labelledby="flow-caption">
+          <div class="flow-lane"><span data-language="en">Motion commands →</span><span data-language="ko" hidden>움직임 전달 →</span></div>
+          <div class="flow-nodes">
+            <div class="flow-node"><span class="node-number">01</span><img class="flow-illustration" src="./static/images/operator.svg" width="260" height="190" alt="Operator / 작업자"><strong><span data-language="en">Operator</span><span data-language="ko" hidden>작업자</span></strong><span data-language="en">Hand motion</span><span data-language="ko" hidden>손의 움직임</span></div>
+            <span class="flow-arrow" aria-hidden="true">↔</span>
+            <div class="flow-node"><span class="node-number">02</span><img class="flow-illustration" src="./static/images/leader-arm.svg" width="260" height="190" alt="Backdrivable dual leader arms / 양팔 리더암"><strong><span data-language="en">Leader arm</span><span data-language="ko" hidden>리더암</span></strong><span data-language="en">Backdrivable · gravity compensated</span><span data-language="ko" hidden>자유로운 움직임 · 중력보상</span></div>
+            <span class="flow-arrow" aria-hidden="true">↔</span>
+            <div class="flow-node"><span class="node-number">03</span><img class="flow-illustration" src="./static/images/follower-robot.svg" width="260" height="190" alt="Dual-arm follower robot / 양팔 팔로워 로봇"><strong><span data-language="en">Follower robot</span><span data-language="ko" hidden>팔로워 로봇</span></strong><span data-language="en">Remote motion · contact</span><span data-language="ko" hidden>원격 움직임 · 접촉</span></div>
+          </div>
+          <div class="flow-lane return-lane"><span data-language="en">← Force feedback</span><span data-language="ko" hidden>← 힘반사</span></div>
+          <figcaption id="flow-caption"><span data-language="en">A bilateral interface connects the operator’s motion to the robot’s interaction with the environment.</span><span data-language="ko" hidden>작업자의 움직임과 로봇의 환경 접촉을 양방향으로 연결합니다.</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section research-section" id="force-feedback-demo">
+      <div class="container is-max-desktop">
+        <details class="research-toggle">
+          <summary><span class="principle-label"><span data-language="en">Dual-Arm Force Feedback</span><span data-language="ko" hidden>양팔 원격조작과 힘반사</span></span><span class="principle-icon" aria-hidden="true">⌄</span></summary>
+          <div class="principle-content">
+            <p class="section-intro"><span data-language="en">Leader–follower motion and external interaction in a dual-arm setup.</span><span data-language="ko" hidden>양팔 시스템에서 리더–팔로워 움직임과 외부 상호작용을 확인합니다.</span></p>
+            <figure class="demo-video">
+              <video id="force-feedback" width="1920" height="1080" controls muted playsinline loop preload="none" poster="./static/images/force-feedback.jpg" aria-labelledby="force-feedback-caption"><source src="./static/videos/dual-arm-force-feedback.mp4" type="video/mp4"><a href="./static/videos/dual-arm-force-feedback.mp4">Download video</a></video>
+              <figcaption id="force-feedback-caption"><span data-language="en">The operator guides the follower arms through the leader. External interaction with the follower is demonstrated during teleoperation.</span><span data-language="ko" hidden>작업자가 리더암으로 팔로워 양팔을 움직이며, 원격조작 중 팔로워에 외부 힘을 가하는 상호작용을 시연합니다.</span></figcaption>
+            </figure>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="section research-section" id="simulation">
+      <div class="container is-max-desktop">
+        <details class="research-toggle">
+          <summary><span class="principle-label"><span data-language="en">Leader–Follower Motion in Simulation</span><span data-language="ko" hidden>시뮬레이션에서의 리더–팔로워 움직임</span></span><span class="principle-icon" aria-hidden="true">⌄</span></summary>
+          <div class="principle-content">
+            <p class="section-intro"><span data-language="en">A development demonstration of physical leader motion and the corresponding virtual dual-arm robot.</span><span data-language="ko" hidden>실제 리더암의 움직임이 가상 양팔 로봇에 전달되는 개발 시연 영상입니다.</span></p>
+            <figure class="demo-video">
+              <video id="simulation-video" width="1920" height="1080" controls muted playsinline loop preload="none" poster="./static/images/simulation.jpg" aria-labelledby="simulation-caption"><source src="./static/videos/leader-follower-simulation.mp4" type="video/mp4"><a href="./static/videos/leader-follower-simulation.mp4">Download video</a></video>
+              <figcaption id="simulation-caption"><span data-language="en">Leader–follower motion visualized in simulation.</span><span data-language="ko" hidden>시뮬레이션으로 확인하는 리더–팔로워 움직임.</span></figcaption>
+            </figure>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="section research-section" id="principle">
+      <div class="container is-max-desktop">
+        <details class="research-toggle" id="control-principle">
+          <summary><span class="principle-label"><span data-language="en">Control Principle &amp; Force Reflection</span><span data-language="ko" hidden>제어 원리와 힘반사 수식</span></span><span class="principle-icon" aria-hidden="true">⌄</span></summary>
+          <div class="principle-content">
+            <p class="section-intro"><span data-language="en">Motion travels from the leader to the follower. The remote wrench returns through the leader’s Jacobian as a torque command. The following equations describe the force-feedback formulation used in the C++ implementation.</span><span data-language="ko" hidden>움직임은 리더에서 팔로워로 전달되고, 원격 힘·토크는 리더의 Jacobian을 통해 관절 토크 명령으로 돌아옵니다. 아래 수식은 C++ 구현에 사용된 힘반사 방식을 설명합니다.</span></p>
+            <div class="notation-note"><span data-language="en">Notation: L = leader, F = follower. Spatial vectors use angular/moment components first: \(\boldsymbol{w}=[\boldsymbol{m}^{T},\boldsymbol{f}^{T}]^{T}\). Wrench and Jacobian must use matching axes, reference origins, and row order.</span><span data-language="ko" hidden>기호: L은 리더, F는 팔로워입니다. 공간 벡터는 모멘트·각성분을 먼저 놓습니다: \(\boldsymbol{w}=[\boldsymbol{m}^{T},\boldsymbol{f}^{T}]^{T}\). 힘·토크와 Jacobian의 축, 기준 원점, 행 순서는 서로 일치해야 합니다.</span></div>
+
+            <div class="math-block">
+              <h3 class="math-title"><span class="equation-number">01</span><span data-language="en">Leader motion → follower pose</span><span data-language="ko" hidden>리더 움직임 → 팔로워 목표 자세</span></h3>
+              <div class="math-eq">\[\boldsymbol{T}_{F}^{\mathrm{des}}=\operatorname{FK}_{F}(\boldsymbol{q}_{F}^{\mathrm{des}})\]</div>
+              <p class="math-desc"><span data-language="en">Forward kinematics converts the follower target joint angles corresponding to leader motion into a target pose.</span><span data-language="ko" hidden>리더 움직임에 대응하는 팔로워 목표 관절각을 순기구학으로 변환하여 목표 pose를 계산합니다.</span></p>
+            </div>
+
+            <div class="math-block">
+              <h3 class="math-title"><span class="equation-number">02</span><span data-language="en">Wrench frame transformation</span><span data-language="ko" hidden>힘·토크 좌표변환</span></h3>
+              <div class="math-eq">\[\begin{aligned}\boldsymbol{f}_{\mathrm{base}}&=\boldsymbol{R}_{\mathrm{base,sensor}}\boldsymbol{f}_{\mathrm{sensor}},\\ \boldsymbol{m}_{\mathrm{base}}&=\boldsymbol{R}_{\mathrm{base,sensor}}\boldsymbol{m}_{\mathrm{sensor}}+\boldsymbol{p}_{\mathrm{base},A}\times\boldsymbol{f}_{\mathrm{base}}.\end{aligned}\]</div>
+              <p class="math-desc"><span data-language="en"><strong>sensor</strong> denotes the input sensor frame, <strong>base</strong> the robot base frame, and <strong>A</strong> the force application point. The rotation matrix expresses force and moment in the base frame; the cross-product term transfers the moment to the base origin.</span><span data-language="ko" hidden><strong>sensor</strong>는 입력 힘·토크의 센서 좌표계, <strong>base</strong>는 로봇 기준 좌표계, <strong>A</strong>는 힘 작용점입니다. 회전 행렬로 힘과 모멘트를 기준 좌표계에 표현하고, 외적항으로 모멘트를 기준 원점으로 이전합니다.</span></p>
+            </div>
+
+            <div class="math-block">
+              <h3 class="math-title"><span class="equation-number">03</span><span data-language="en">Jacobian-transpose force reflection</span><span data-language="ko" hidden>Jacobian 전치 기반 힘반사</span></h3>
+              <div class="math-eq">\[\boldsymbol{\tau}_{\mathrm{JT}}=\boldsymbol{G}_{\tau}\,\boldsymbol{J}_{L}^{T}(\boldsymbol{q}_{L})\,\boldsymbol{w}_{\mathrm{ref}}\]</div>
+              <p class="math-desc"><span data-language="en">The leader’s spatial Jacobian converts remote wrench into joint torques.</span><span data-language="ko" hidden>리더의 공간 Jacobian으로 원격 힘·토크를 관절 토크로 변환합니다.</span></p>
+            </div>
+
+            <div class="math-block">
+              <h3 class="math-title"><span class="equation-number">04</span><span data-language="en">Cartesian virtual impedance</span><span data-language="ko" hidden>Cartesian 가상 임피던스</span></h3>
+              <div class="math-eq">\[\begin{aligned}\boldsymbol{v}_{L}&=\boldsymbol{J}_{L}\dot{\boldsymbol{q}}_{L},\qquad \boldsymbol{a}_{L}=\dot{\boldsymbol{v}}_{L},\\ \boldsymbol{W}_{L}&=\boldsymbol{G}_{w}\boldsymbol{w}_{\mathrm{ref}}-\boldsymbol{D}_{c}\boldsymbol{v}_{L}-\boldsymbol{M}_{c}\boldsymbol{a}_{L},\\ \boldsymbol{\tau}_{\mathrm{cart}}&=\boldsymbol{J}_{L}^{T}\boldsymbol{W}_{L}.\end{aligned}\]</div>
+              <p class="math-desc"><span data-language="en">An alternative to per-joint reflection: scale the wrench in Cartesian space, then add velocity damping and optional virtual inertia. \(\boldsymbol{v}_{L}\) is the spatial velocity associated with the same Jacobian. This formulation renders torque while preserving the leader’s backdrivability.</span><span data-language="ko" hidden>관절별 힘반사의 대안으로, Cartesian 공간에서 원격 힘·토크의 세기를 조절하고 속도 감쇠와 선택적인 가상 관성항을 더합니다. \(\boldsymbol{v}_{L}\)은 동일한 Jacobian에 대응하는 공간 속도입니다. 리더의 자유로운 움직임을 유지하면서 토크로 힘을 전달합니다.</span></p>
+            </div>
+
+            <div class="math-block">
+              <h3 class="math-title"><span class="equation-number">05</span><span data-language="en">Gravity compensation &amp; motor current</span><span data-language="ko" hidden>중력보상과 모터 전류 출력</span></h3>
+              <div class="math-eq">\[\boldsymbol{\tau}_{\mathrm{cmd}}=\boldsymbol{\tau}_{g}+\operatorname{clip}(\widetilde{\boldsymbol{\tau}}_{\mathrm{fb}})+\boldsymbol{\tau}_{\mathrm{fric}}\]</div>
+              <div class="math-eq">\[u_{j}=\operatorname{sat}\!\left(\operatorname{round}\!\left(\frac{\tau_{\mathrm{cmd},j}}{K_{t,j}\,c_{I,j}}\right)\right)\]</div>
+              <p class="math-desc"><span data-language="en">Filtered feedback, including optional joint damping, is limited per joint and combined with gravity compensation and optional friction compensation. Torque constants \(K_{t,j}\) and current-unit scales \(c_{I,j}\) convert torque to bounded Dynamixel goal-current units \(u_j\).</span><span data-language="ko" hidden>선택적인 관절 감쇠를 포함한 피드백 토크를 필터링·제한한 뒤 중력보상과 선택적인 마찰보상을 합산합니다. 토크 상수 \(K_{t,j}\)와 전류 단위 \(c_{I,j}\)로 토크를 Dynamixel 목표 전류값 \(u_j\)으로 변환하고 최대 전류를 제한합니다.</span></p>
+            </div>
+
+            <details class="friction-detail">
+              <summary><span data-language="en">Optional friction feedforward</span><span data-language="ko" hidden>선택적인 마찰보상</span></summary>
+              <div class="math-eq">\[\tau_{\mathrm{fric},j}=\operatorname{clip}\!\left(s_j\left[F_{c,j}\tanh\!\left(\frac{\dot q_j}{v_{\epsilon,j}}\right)+F_{v,j}\dot q_j\right]\right)\]</div>
+              <p class="math-desc"><span data-language="en">A smoothed Coulomb-plus-viscous model assists motion to compensate for leader joint friction. Its parameters need to be identified for the hardware; the term is optional.</span><span data-language="ko" hidden>Coulomb 마찰과 점성 마찰 모델을 이용해 리더 관절의 마찰을 보상합니다. 매끄러운 tanh 함수로 움직임을 보조하며, 하드웨어에 맞게 계수를 식별하여 선택적으로 사용합니다.</span></p>
+            </details>
+          </div>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container is-max-desktop has-text-centered">
+      <p class="footer-project">Teleoperating Leader Arm for Dual Arm</p>
+      <p><a href="https://r-ush.github.io/"><span data-language="en">Seunghwan Um · More Research</span><span data-language="ko" hidden>엄승환 · 다른 연구</span></a><span class="footer-separator">/</span><a href="https://github.com/r-ush/bilateral_leader_arm" target="_blank" rel="noopener noreferrer"><span data-language="en">Website Source</span><span data-language="ko" hidden>페이지 소스</span></a></p>
+      <p class="template-credit"><span data-language="en">Layout adapted from </span><span data-language="ko" hidden>페이지 서식: </span><a href="https://r-ush.github.io/scooping_robotic_hand/">Scooping Grasping with Robotic Hand</a><span data-language="en">, based on </span><span data-language="ko" hidden> · 원본 템플릿: </span><a href="https://github.com/nerfies/nerfies.github.io">NeRFies</a>.</p>
+    </div>
+  </footer>
+</body>
+</html>

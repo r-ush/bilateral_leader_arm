@@ -1,0 +1,16 @@
+# Teleoperating Leader Arm for Dual Arm
+
+Authors: Seunghwan Um, Chemin Ahn, Jeong Hwan Park, Sung Jun Lee.
+Advisor: Hyouk Ryeol Choi (최혁렬).
+
+Research project on bilateral leader–follower teleoperation with backdrivable leader arms, gravity compensation, and force feedback for a dual-arm robot.
+
+The page includes dual-arm force-feedback and robotic-hand videos, a simulation demonstration, and equations for motion mapping, wrench frame transformation, Jacobian-transpose reflection, Cartesian virtual impedance, torque-to-current conversion, and optional friction feedforward.
+
+The main bilateral robotic-hand demonstration uses increased force-feedback gain to make its response more visible.
+
+KRoC 2026 presentation by Seunghwan Um: 리더암 힘피드백이 가능한 양팔 로봇 텔레오퍼레이션 시스템 개발. Session: [TA6] 특별세션5, 물류 센터 작업을 위한 휴머노이드 기술, February 5, 2026. Official program: https://kros.org/Conference/ConferenceView.asp?AC=0&CODE=CC20250902&CpPage=298
+
+Project page: https://r-ush.github.io/bilateral_leader_arm/
+Control code: https://github.com/Robotory-Dual-arm/teleop
+Website source: https://github.com/r-ush/bilateral_leader_arm
